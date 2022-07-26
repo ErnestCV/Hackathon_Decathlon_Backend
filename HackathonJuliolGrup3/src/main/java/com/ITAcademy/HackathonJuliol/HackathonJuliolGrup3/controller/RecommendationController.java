@@ -2,6 +2,7 @@ package com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.controller;
 
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.dto.PetitionDTO;
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity.Petition;
+import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity.Recommendation;
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity.Tags;
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.service.PetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class RecommendationController {
     @PutMapping("/{id}")
     public ResponseEntity<PetitionDTO> updatePetition(@Valid @RequestBody PetitionDTO petitionDTO, String id) {
         return new ResponseEntity<>(petitionService.updatePetition(petitionDTO, id), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id_petition}/")
+    public ResponseEntity<Petition> createRecommendation(@Valid @RequestBody Recommendation recommendation, @PathVariable("id_petition") String id_petition) {
+        return new ResponseEntity<>(petitionService.insertRecommendation(id_petition, recommendation), HttpStatus.CREATED);
     }
 
 

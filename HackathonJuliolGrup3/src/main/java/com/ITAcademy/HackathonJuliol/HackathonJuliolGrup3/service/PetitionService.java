@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,7 +23,7 @@ public class PetitionService {
     PetitionRepository petitionRepository;
 
     public Petition getPetitionByCreatorId(String id) {
-        Petition petition = petitionRepository.findByCreatorId(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
+        Petition petition = petitionRepository.findByUsername(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
         return petition;
     }
 
@@ -40,7 +39,7 @@ public class PetitionService {
     }
 
     public PetitionDTO updatePetition(PetitionDTO petitionDTO, String id) {
-        Petition petition = petitionRepository.findByCreatorId(id)
+        Petition petition = petitionRepository.findByUsername(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
 
         petition.setMessage(petitionDTO.getMessage());
@@ -52,20 +51,21 @@ public class PetitionService {
     }
 
     // recomendations repo
-    public Petition insertRecommendation(final String id, final RecommendationDTO recomendation) {
+    public Petition insertRecommendation(final String id, final Recommendation recomendation) {
         Petition petition = getPetition(id);
-        petition.getRecomendations().add(recommendationToDTO(recomendation));
-        return petition;
+        petition.getRecommendations().add(recomendation);
+        Petition newPetition = petitionRepository.save(petition);
+        return newPetition;
     }
     
     public Petition updateRecomendation(final String petitionId, final String recomendationId, final RecommendationDTO dto) {
         Petition petition = getPetition(petitionId);
-        Recommendation recomendation = petition.getRecomendations().stream()
-                .filter(r -> r.getMongoDb().equals(recomendationId)).findFirst()
+        Recommendation recomendation = petition.getRecommendations().stream()
+                .filter(r -> r.getMongoId().equals(recomendationId)).findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recomendationId));
 
         recomendation.setLikes(dto.getLikes());
-        recomendation.setResponderId(dto.getText());
+        recomendation.setUsername(dto.getText());
         recomendation.setLinks(dto.getLinks());
         petitionRepository.save(petition);
         
@@ -75,7 +75,7 @@ public class PetitionService {
 
     // get petition or throw
     private Petition getPetition(final String id) throws ResourceNotFoundException {
-        return petitionRepository.findById(id)
+        return petitionRepository.findByUsername(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
     }
     
@@ -91,9 +91,5 @@ public class PetitionService {
     //Convert DTO to entity
     private Petition mapToEntity(PetitionDTO petitionDTO) {
         return modelMapper.map(petitionDTO, Petition.class);
-    }
-
-    private Recommendation recommendationToDTO(final RecommendationDTO dto) {
-        return modelMapper.map(dto, Recommendation.class);
     }
 }
