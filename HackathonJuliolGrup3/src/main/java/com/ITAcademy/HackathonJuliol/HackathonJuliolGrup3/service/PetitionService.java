@@ -59,15 +59,15 @@ public class PetitionService {
         return petition;
     }
     
-    public Petition updateRecomendation(final String petitionId, final Long recomendationId, final RecommendationDTO dto) {
+    public Petition updateRecomendation(final String petitionId, final Long recomendationId, final Recommendation recommendation) {
         Petition petition = getPetition(petitionId);
         Recommendation recomendation = petition.getRecommendations().stream()
                 .filter(r -> r.getId().equals(recomendationId)).findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recomendationId.toString()));
 
-        recomendation.setLikes(dto.getLikes());
-        recomendation.setUsername(dto.getText());
-        recomendation.setLinks(dto.getLinks());
+        recomendation.setLikes(recommendation.getLikes());
+        recomendation.setUsername(recommendation.getText());
+        recomendation.setLinks(recommendation.getLinks());
         petitionRepository.save(petition);
         
         

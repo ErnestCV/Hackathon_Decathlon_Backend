@@ -45,5 +45,9 @@ public class RecommendationController {
         return new ResponseEntity<>(petitionService.insertRecommendation(id_petition, recommendation), HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id_petition}/{id}")
+    public ResponseEntity<Petition> updateRecommendation(@Valid @RequestBody Recommendation recommendation, @PathVariable("id_petition") String id_petition, @PathVariable("id") Long id) {
+        return new ResponseEntity<>(petitionService.updateRecomendation(id_petition, id, recommendation), HttpStatus.CREATED);
+    }
 
 }
