@@ -3,6 +3,7 @@ package com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Document("user")
 public class User {
+    @Id
     private String idUser;
     private String reputation;
     @Builder.Default

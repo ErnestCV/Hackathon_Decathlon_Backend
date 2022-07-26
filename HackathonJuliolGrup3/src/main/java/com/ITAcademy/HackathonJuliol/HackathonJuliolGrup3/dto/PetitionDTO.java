@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PetitionDTO {
+    
     private String creatorId;
     private String message;
     // TODO: oju! in production create a class!
