@@ -55,4 +55,10 @@ public class RecommendationController {
         petitionService.deletePetition(id_petition);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id_petition}/{id}")
+    public ResponseEntity<Petition> deleteRecommendation(@PathVariable("id_petition") String id_petition, @PathVariable("id") Long id) {
+        return new ResponseEntity<>(petitionService.removeRecomendation(id_petition, id), HttpStatus.CREATED);
+    }
+
 }
