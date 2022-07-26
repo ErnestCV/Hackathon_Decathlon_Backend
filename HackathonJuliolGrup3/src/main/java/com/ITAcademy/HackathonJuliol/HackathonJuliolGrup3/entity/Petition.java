@@ -1,5 +1,6 @@
 package com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -18,11 +19,12 @@ import lombok.NoArgsConstructor;
 public class Petition {
     @Id
     private String mongoId;
-    private String creatorId;
+    private String username;
     private String message;
     // TODO: oju! in production create a class!
     private List<String> tags;
-    private List<Recommendation> recomendations;
+    @Builder.Default
+    private List<Recommendation> recommendations = new ArrayList<>();
     
     @Builder.Default
     private boolean isClosed = false;

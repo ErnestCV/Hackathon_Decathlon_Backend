@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class PetitionDTO {
 
     private String mongoId;
-    private String creatorId;
+    private String username;
     private String message;
     // TODO: oju! in production create a class!
     private List<String> tags;

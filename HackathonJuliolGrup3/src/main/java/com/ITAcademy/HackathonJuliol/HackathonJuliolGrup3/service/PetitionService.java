@@ -23,7 +23,7 @@ public class PetitionService {
     PetitionRepository petitionRepository;
 
     public Petition getPetitionByCreatorId(String id) {
-        Petition petition = petitionRepository.findByCreatorId(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
+        Petition petition = petitionRepository.findByUsername(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
         return petition;
     }
 
@@ -39,7 +39,7 @@ public class PetitionService {
     }
 
     public PetitionDTO updatePetition(PetitionDTO petitionDTO, String id) {
-        Petition petition = petitionRepository.findByCreatorId(id)
+        Petition petition = petitionRepository.findByUsername(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
 
         petition.setMessage(petitionDTO.getMessage());
@@ -51,11 +51,10 @@ public class PetitionService {
     }
 
     // recomendations repo
-    public Petition insertRecommendation(final String id, final RecommendationDTO recomendation) {
-        Petition petition = getPetition(id);
-        Recommendation rec = recommendationToDTO(recomendation);
-        petition.getRecomendations().add(recommendationToDTO(recomendation));
-        rec.setId((long)petition.getRecomendations().size());
+    public Petition insertRecommendation(final String id, final Recommendation recomendation) {
+        Petition petition = getPetition(id);        
+        petition.getRecommendations().add(recomendation);
+        recomendation.setId((long)petition.getRecommendations().size());
         return petition;
     }
     
@@ -66,7 +65,7 @@ public class PetitionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recomendationId.toString()));
 
         recomendation.setLikes(dto.getLikes());
-        recomendation.setResponderId(dto.getText());
+        recomendation.setUsername(dto.getText());
         recomendation.setLinks(dto.getLinks());
         petitionRepository.save(petition);
         
@@ -76,7 +75,7 @@ public class PetitionService {
 
     // get petition or throw
     private Petition getPetition(final String id) throws ResourceNotFoundException {
-        return petitionRepository.findById(id)
+        return petitionRepository.findByUsername(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
     }
     
@@ -94,7 +93,5 @@ public class PetitionService {
         return modelMapper.map(petitionDTO, Petition.class);
     }
 
-    private Recommendation recommendationToDTO(final RecommendationDTO dto) {
-        return modelMapper.map(dto, Recommendation.class);
-    }
+    
 }

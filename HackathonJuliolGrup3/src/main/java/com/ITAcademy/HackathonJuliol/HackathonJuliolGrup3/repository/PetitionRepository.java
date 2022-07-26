@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface PetitionRepository extends MongoRepository<Petition, String> {
     
-    Optional<Petition> findByCreatorId(String creatorId);
+    Optional<Petition> findByUsername(String creatorId);
 }
