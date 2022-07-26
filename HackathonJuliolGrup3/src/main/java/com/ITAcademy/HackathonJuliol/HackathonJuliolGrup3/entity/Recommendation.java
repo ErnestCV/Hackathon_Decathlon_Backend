@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document
 public class Recommendation {
     @Id
     private String mongoId;
