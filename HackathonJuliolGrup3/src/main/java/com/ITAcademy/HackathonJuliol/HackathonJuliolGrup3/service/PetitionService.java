@@ -80,6 +80,10 @@ public class PetitionService {
         return petitionRepository.findByUsername(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
     }
+
+    public void deletePetition(String id) {
+        petitionRepository.delete(getPetition(id));
+    }
     
     private Recommendation getRecommendation(final Petition petition, final String id) throws ResourceNotFoundException {
         //Optional<Recommendation> rec = petition.getRecomendations().stream().anyMatch(r -> r.get)

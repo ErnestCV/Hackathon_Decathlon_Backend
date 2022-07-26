@@ -51,8 +51,9 @@ public class RecommendationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePetition(@PathVariable("id_petition") String id_petition) {
-        return new ResponseEntity<>(petitionService.deletePetition(id_petition), HttpStatus.OK);
+    public ResponseEntity<?> deletePetition(@PathVariable("id") String id_petition) {
+        petitionService.deletePetition(id_petition);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
