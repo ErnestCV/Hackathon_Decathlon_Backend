@@ -92,8 +92,8 @@ public class PetitionService {
     }
     
     private Recommendation getRecommendation(final Petition petition, final Long id) throws ResourceNotFoundException {
-        //Optional<Recommendation> rec = petition.getRecomendations().stream().anyMatch(r -> r.get)
-        return null;
+        return petition.getRecommendations().stream().filter(r -> r.getId() == id).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id.toString()));
     }
 
     // Convert entity to DTO
