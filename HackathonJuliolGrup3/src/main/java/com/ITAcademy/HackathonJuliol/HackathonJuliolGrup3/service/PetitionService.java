@@ -54,7 +54,8 @@ public class PetitionService {
     public Petition insertRecommendation(final String id, final Recommendation recomendation) {
         Petition petition = getPetition(id);        
         petition.getRecommendations().add(recomendation);
-        recomendation.setId((long)petition.getRecommendations().size());
+        recomendation.setId((long) petition.getRecommendations().size());
+        petition = petitionRepository.save(petition);
         return petition;
     }
     
