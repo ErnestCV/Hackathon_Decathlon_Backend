@@ -1,6 +1,9 @@
 package com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,17 +11,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Recommendation {
-
-    private Long recId;
-    private String responderId;
-
-    //TODO: oju! in production maybe class
+@Document("user")
+public class User {
+    private String idUser;
+    private String reputation;
     @Builder.Default
-    private List<String> links = new ArrayList<>();
-
-    private int likes = 0;
+    private List<Sport> sports = new ArrayList<Sport>();
 }
