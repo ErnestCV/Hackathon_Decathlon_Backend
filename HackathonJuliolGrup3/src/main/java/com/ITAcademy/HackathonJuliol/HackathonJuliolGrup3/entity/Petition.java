@@ -2,6 +2,7 @@ package com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity;
 
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Document("Petitions")
 public class Petition {
-    
+    @Id
     private Long mongoId;
     private String creatorId;
     private String message;
