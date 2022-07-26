@@ -17,7 +17,6 @@ public class PetitionDTO {
     private String message;
     // TODO: oju! in production create a class!
     private List<String> tags;
-    private List<RecommendationDTO> recomendations;
 
     @Builder.Default
     private boolean isClosed = false;
