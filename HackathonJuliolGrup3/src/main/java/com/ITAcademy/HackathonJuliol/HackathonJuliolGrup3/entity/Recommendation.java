@@ -15,14 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 public class Recommendation {
-<<<<<<< HEAD
     private Long id;
-    private String responderId;
-=======
-    @Id
-    private String mongoId;
     private String username;
->>>>>>> f5de941d46d8444522da1528839ec7874c3a5049
     private String text;
 
     //TODO: oju! in production maybe class
