@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RecommendationDTO {
     
-    private String answerId;
+    private String answererId;
     private String text;
     @Builder.Default
     private List<String> links = new ArrayList<>();

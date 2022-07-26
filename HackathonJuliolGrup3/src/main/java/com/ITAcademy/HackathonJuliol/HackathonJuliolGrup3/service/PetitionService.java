@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,13 +52,37 @@ public class PetitionService {
     }
 
     // recomendations repo
-    public PetitionDTO insertRecommendation(final String id, final RecommendationDTO recomendation){
-        Petition petition = petitionRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
+    public Petition insertRecommendation(final String id, final RecommendationDTO recomendation) {
+        Petition petition = getPetition(id);
         petition.getRecomendations().add(recommendationToDTO(recomendation));
-        return mapToDTO(petition);
+        return petition;
+    }
+    
+    public Petition updateRecomendation(final String petitionId, final String recomendationId, final RecommendationDTO dto) {
+        Petition petition = getPetition(petitionId);
+        Recommendation recomendation = petition.getRecomendations().stream()
+                .filter(r -> r.getMongoDb().equals(recomendationId)).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recomendationId));
+
+        recomendation.setLikes(dto.getLikes());
+        recomendation.setResponderId(dto.getText());
+        recomendation.setLinks(dto.getLinks());
+        petitionRepository.save(petition);
+        
+        
+        return petition;
     }
 
+    // get petition or throw
+    private Petition getPetition(final String id) throws ResourceNotFoundException {
+        return petitionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
+    }
+    
+    private Recommendation getRecommendation(final Petition petition, final String id) throws ResourceNotFoundException {
+        //Optional<Recommendation> rec = petition.getRecomendations().stream().anyMatch(r -> r.get)
+        return null;
+    }
     //Convert entity to DTO
     private PetitionDTO mapToDTO(Petition petition) {
         return modelMapper.map(petition, PetitionDTO.class);
