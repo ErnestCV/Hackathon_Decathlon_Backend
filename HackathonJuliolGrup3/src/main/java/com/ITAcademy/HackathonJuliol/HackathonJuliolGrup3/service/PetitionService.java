@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,15 +53,17 @@ public class PetitionService {
     // recomendations repo
     public Petition insertRecommendation(final String id, final RecommendationDTO recomendation) {
         Petition petition = getPetition(id);
+        Recommendation rec = recommendationToDTO(recomendation);
         petition.getRecomendations().add(recommendationToDTO(recomendation));
+        rec.setId((long)petition.getRecomendations().size());
         return petition;
     }
     
-    public Petition updateRecomendation(final String petitionId, final String recomendationId, final RecommendationDTO dto) {
+    public Petition updateRecomendation(final String petitionId, final Long recomendationId, final RecommendationDTO dto) {
         Petition petition = getPetition(petitionId);
         Recommendation recomendation = petition.getRecomendations().stream()
-                .filter(r -> r.getMongoDb().equals(recomendationId)).findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recomendationId));
+                .filter(r -> r.getId().equals(recomendationId)).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recomendationId.toString()));
 
         recomendation.setLikes(dto.getLikes());
         recomendation.setResponderId(dto.getText());

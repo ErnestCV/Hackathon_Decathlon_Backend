@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Recommendation {
-    @Id
-    private String mongoDb;
+    private Long id;
     private String responderId;
     private String text;
 
