@@ -84,17 +84,19 @@ public class PetitionService {
         petitionRepository.delete(getPetition(id));
     }
 
-    public Petition removeRecomendation(final String petitionId, final Long recId) {
-        Petition petition = getPetition(petitionId);
-        Recommendation toRemove = this.getRecommendation(petition, recId);
-        petition.getRecommendations().remove(toRemove);
-        return petitionRepository.save(petition);
-    }
-    
-    private Recommendation getRecommendation(final Petition petition, final Long id) throws ResourceNotFoundException {
-        //Optional<Recommendation> rec = petition.getRecomendations().stream().anyMatch(r -> r.get)
-        return null;
-    }
+//    public Petition removeRecomendation(final String petitionId, final Long recId) {
+//        Petition petition = getPetition(petitionId);
+//        Recommendation toRemove = this.getRecommendation(petition, recId);
+//        petition.getRecommendations().remove(toRemove);
+//        return petitionRepository.save(petition);
+//    }
+//
+//    private Recommendation getRecommendation(final Petition petition, final String id)
+//            throws ResourceNotFoundException {
+//        return petition.getRecommendations().stream().filter(r -> r.getId() == id).findFirst()
+//                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id.toString());
+//
+//    }
 
     // Convert entity to DTO
     private PetitionDTO mapToDTO(Petition petition) {
