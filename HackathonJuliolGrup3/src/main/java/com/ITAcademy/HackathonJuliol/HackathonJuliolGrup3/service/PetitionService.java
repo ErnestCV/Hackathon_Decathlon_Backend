@@ -60,7 +60,7 @@ public class PetitionService {
     
     public Petition updateRecomendation(final String petitionId, final Long recomendationId, final RecommendationDTO dto) {
         Petition petition = getPetition(petitionId);
-        Recommendation recomendation = petition.getRecomendations().stream()
+        Recommendation recomendation = petition.getRecommendations().stream()
                 .filter(r -> r.getId().equals(recomendationId)).findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recomendationId.toString()));
 
