@@ -17,6 +17,7 @@ public class Recommendation {
     @Id
     private String mongoDb;
     private String responderId;
+    private String text;
 
     //TODO: oju! in production maybe class
     @Builder.Default
