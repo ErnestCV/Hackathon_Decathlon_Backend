@@ -22,9 +22,9 @@ public class PetitionService {
     @Autowired
     PetitionRepository petitionRepository;
 
-    public PetitionDTO getPetitionByCreatorId(String id) {
+    public Petition getPetitionByCreatorId(String id) {
         Petition petition = petitionRepository.findByCreatorId(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
-        return mapToDTO(petition);
+        return petition;
     }
 
     public List<PetitionDTO> getPetitionsTags(Tags tags) {
@@ -34,6 +34,18 @@ public class PetitionService {
 
     public PetitionDTO createPetition(PetitionDTO petitionDTO) {
         Petition petition = mapToEntity(petitionDTO);
+        Petition newPetition = petitionRepository.save(petition);
+        return mapToDTO(newPetition);
+    }
+
+    public PetitionDTO updatePetition(PetitionDTO petitionDTO, String id) {
+        Petition petition = petitionRepository.findByCreatorId(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
+
+        petition.setMessage(petitionDTO.getMessage());
+        petition.setTags(petitionDTO.getTags());
+        petition.setClosed(petitionDTO.isClosed());
+
         Petition newPetition = petitionRepository.save(petition);
         return mapToDTO(newPetition);
     }

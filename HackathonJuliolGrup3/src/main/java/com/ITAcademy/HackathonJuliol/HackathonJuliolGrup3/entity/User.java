@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     private String idUser;
+    private String username;
     private String reputation;
     @Builder.Default
     private List<Sport> sports = new ArrayList<Sport>();

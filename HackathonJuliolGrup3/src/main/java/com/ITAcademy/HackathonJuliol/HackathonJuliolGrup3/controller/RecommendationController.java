@@ -1,6 +1,7 @@
 package com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.controller;
 
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.dto.PetitionDTO;
+import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity.Petition;
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity.Tags;
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.service.PetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class RecommendationController {
     PetitionService petitionService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<PetitionDTO> getPetitionByCreatorId(@PathVariable("id") String id) {
+    public ResponseEntity<Petition> getPetitionByCreatorId(@PathVariable("id") String id) {
         return ResponseEntity.ok(petitionService.getPetitionByCreatorId(id));
     }
 
@@ -31,6 +32,11 @@ public class RecommendationController {
     @PostMapping("/")
     public ResponseEntity<PetitionDTO> createPetition(@Valid @RequestBody PetitionDTO petitionDTO) {
         return new ResponseEntity<>(petitionService.createPetition(petitionDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PetitionDTO> updatePetition(@Valid @RequestBody PetitionDTO petitionDTO, String id) {
+        return new ResponseEntity<>(petitionService.updatePetition(petitionDTO, id), HttpStatus.CREATED);
     }
 
 
