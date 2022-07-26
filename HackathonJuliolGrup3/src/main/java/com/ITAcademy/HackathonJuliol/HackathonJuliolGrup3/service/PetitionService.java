@@ -29,6 +29,7 @@ public class PetitionService {
 
     public List<PetitionDTO> getPetitionsTags(Tags tags) {
         List<Petition> list = petitionRepository.findAll();
+        //List<String> tags_list = tags.getTags();
 
         return list.stream().map(this::mapToDTO).collect(Collectors.toList());
     }

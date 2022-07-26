@@ -55,5 +55,4 @@ public class RecommendationController {
         petitionService.deletePetition(id_petition);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
