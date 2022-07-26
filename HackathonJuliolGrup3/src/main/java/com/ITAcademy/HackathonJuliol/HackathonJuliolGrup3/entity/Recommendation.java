@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Recommendation {
     @Id
-    private Long mongoDb;
-    private Long adwiserId;
+    private String mongoDb;
     private String responderId;
 
     //TODO: oju! in production maybe class
     @Builder.Default
     private List<String> links = new ArrayList<>();
 
+    @Builder.Default
     private int likes = 0;
 }

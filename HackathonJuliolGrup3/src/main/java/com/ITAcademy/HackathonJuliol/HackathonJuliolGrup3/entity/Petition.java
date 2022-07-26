@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Document("Petitions")
 public class Petition {
     @Id
-    private Long mongoId;
+    private String mongoId;
     private String creatorId;
     private String message;
     // TODO: oju! in production create a class!
