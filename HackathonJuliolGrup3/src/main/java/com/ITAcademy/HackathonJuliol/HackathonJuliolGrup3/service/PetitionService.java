@@ -23,13 +23,13 @@ public class PetitionService {
     PetitionRepository petitionRepository;
 
     public Petition getPetitionByCreatorId(String id) {
-        Petition petition = petitionRepository.findByUsername(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
+        Petition petition = petitionRepository.findByUsername(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
         return petition;
     }
 
     public List<PetitionDTO> getPetitionsTags(Tags tags) {
         List<Petition> list = petitionRepository.findAll();
-
         return list.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
@@ -53,26 +53,37 @@ public class PetitionService {
 
     // recomendations repo
     public Petition insertRecommendation(final String id, final Recommendation recomendation) {
-        Petition petition = getPetition(id);        
+        Petition petition = getPetition(id);
         petition.getRecommendations().add(recomendation);
         recomendation.setId((long) petition.getRecommendations().size());
         petition = petitionRepository.save(petition);
         return petition;
     }
-    
-    public Petition updateRecomendation(final String petitionId, final Long recomendationId, final Recommendation recommendation) {
-        Petition petition = getPetition(petitionId);
-        Recommendation recomendation = petition.getRecommendations().stream()
-                .filter(r -> r.getId().equals(recomendationId)).findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recomendationId.toString()));
 
-        recomendation.setLikes(recommendation.getLikes());
-        recomendation.setUsername(recommendation.getText());
-        recomendation.setLinks(recommendation.getLinks());
+    public Petition updateRecomendation(final String petitionId, final Long recomendationId,
+            final Recommendation newRec) {
+        Petition petition = getPetition(petitionId);
+        Recommendation recomendation = this.getReccomentaion(petition, recomendationId);
+
+        recomendation.setLikes(newRec.getLikes());
+        recomendation.setUsername(newRec.getText());
+        recomendation.setLinks(newRec.getLinks());
         petitionRepository.save(petition);
-        
-        
+
         return petition;
+    }
+
+    public Petition removeRecomendation(final String petitionId, final Long recId) {
+        Petition petition = getPetition(petitionId);
+        Recommendation toRemove = this.getReccomentaion(petition, recId);
+        petition.getRecommendations().remove(toRemove);
+        return petitionRepository.save(petition);
+    }
+
+    private Recommendation getReccomentaion(final Petition petition, final Long recId) {
+        return petition.getRecommendations().stream()
+                .filter(r -> r.getId().equals(recId)).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", recId.toString()));
     }
 
     // get petition or throw
@@ -80,20 +91,22 @@ public class PetitionService {
         return petitionRepository.findByUsername(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
     }
-    
-    private Recommendation getRecommendation(final Petition petition, final String id) throws ResourceNotFoundException {
-        //Optional<Recommendation> rec = petition.getRecomendations().stream().anyMatch(r -> r.get)
+
+    private Recommendation getRecommendation(final Petition petition, final String id)
+            throws ResourceNotFoundException {
+        // Optional<Recommendation> rec =
+        // petition.getRecomendations().stream().anyMatch(r -> r.get)
         return null;
     }
-    //Convert entity to DTO
+
+    // Convert entity to DTO
     private PetitionDTO mapToDTO(Petition petition) {
         return modelMapper.map(petition, PetitionDTO.class);
     }
 
-    //Convert DTO to entity
+    // Convert DTO to entity
     private Petition mapToEntity(PetitionDTO petitionDTO) {
         return modelMapper.map(petitionDTO, Petition.class);
     }
 
-    
 }
