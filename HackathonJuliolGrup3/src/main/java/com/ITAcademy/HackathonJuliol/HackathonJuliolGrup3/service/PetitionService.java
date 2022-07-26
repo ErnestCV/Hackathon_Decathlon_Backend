@@ -64,7 +64,7 @@ public class PetitionService {
     public Petition updateRecomendation(final String petitionId, final Long recomendationId,
             final Recommendation newRec) {
         Petition petition = getPetition(petitionId);
-        Recommendation recomendation = this.getReccomentaion(petition, recomendationId);
+        Recommendation recomendation = this.getRecommendation(petition, recomendationId);
 
         recomendation.setLikes(newRec.getLikes());
         recomendation.setUsername(newRec.getText());
@@ -83,8 +83,15 @@ public class PetitionService {
     public void deletePetition(String id) {
         petitionRepository.delete(getPetition(id));
     }
+
+    public Petition removeRecomendation(final String petitionId, final Long recId) {
+        Petition petition = getPetition(petitionId);
+        Recommendation toRemove = this.getRecommendation(petition, recId);
+        petition.getRecommendations().remove(toRemove);
+        return petitionRepository.save(petition);
+    }
     
-    private Recommendation getRecommendation(final Petition petition, final String id) throws ResourceNotFoundException {
+    private Recommendation getRecommendation(final Petition petition, final Long id) throws ResourceNotFoundException {
         //Optional<Recommendation> rec = petition.getRecomendations().stream().anyMatch(r -> r.get)
         return null;
     }
