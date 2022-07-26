@@ -20,8 +20,8 @@ public class PetitionService {
     @Autowired
     PetitionRepository petitionRepository;
 
-    public PetitionDTO getUserById(String id) {
-        Petition petition = petitionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
+    public PetitionDTO getPetitionByCreatorId(String id) {
+        Petition petition = petitionRepository.findByCreatorId(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
         return mapToDTO(petition);
     }
 

@@ -19,8 +19,8 @@ public class RecommendationController {
     PetitionService petitionService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<PetitionDTO> getPetitionById(@PathVariable("id") String id) {
-        return ResponseEntity.ok(petitionService.getUserById(id));
+    public ResponseEntity<PetitionDTO> getPetitionByCreatorId(@PathVariable("id") String id) {
+        return ResponseEntity.ok(petitionService.getPetitionByCreatorId(id));
     }
 
     @GetMapping("/")
