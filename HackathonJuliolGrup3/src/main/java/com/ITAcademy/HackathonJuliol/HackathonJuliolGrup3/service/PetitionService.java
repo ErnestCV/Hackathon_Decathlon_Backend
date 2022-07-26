@@ -92,10 +92,19 @@ public class PetitionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
     }
 
+<<<<<<< HEAD
     private Recommendation getRecommendation(final Petition petition, final String id)
             throws ResourceNotFoundException {
         // Optional<Recommendation> rec =
         // petition.getRecomendations().stream().anyMatch(r -> r.get)
+=======
+    public void deletePetition(String id) {
+        petitionRepository.delete(getPetition(id));
+    }
+    
+    private Recommendation getRecommendation(final Petition petition, final String id) throws ResourceNotFoundException {
+        //Optional<Recommendation> rec = petition.getRecomendations().stream().anyMatch(r -> r.get)
+>>>>>>> ba038c69f99dc7e3c8ff4111c24c924ce1a88a1e
         return null;
     }
 
