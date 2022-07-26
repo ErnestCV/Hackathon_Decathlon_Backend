@@ -2,11 +2,15 @@ package com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.service;
 
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.dto.PetitionDTO;
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity.Petition;
+import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.entity.Tags;
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.exception.ResourceNotFoundException;
 import com.ITAcademy.HackathonJuliol.HackathonJuliolGrup3.repository.PetitionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PetitionService {
@@ -19,6 +23,11 @@ public class PetitionService {
     public PetitionDTO getUserById(String id) {
         Petition petition = petitionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Petition", "id", id));
         return mapToDTO(petition);
+    }
+
+    public List<PetitionDTO> getPetitionsTags(Tags tags) {
+        List<Petition> list = petitionRepository.findAll();
+        return list.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     public PetitionDTO createPetition(PetitionDTO petitionDTO) {
